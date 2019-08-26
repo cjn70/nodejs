@@ -1,0 +1,146 @@
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<style>
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+body{
+	background-color:#f2f2f2
+}
+
+
+}
+</style>
+<body>
+
+<div class="topnav">
+  <a href="/h">Watch List</a>
+  <a href="/logOut">LogOut</a>
+
+</div>
+
+<div style="padding-left:16px">
+  <h2><!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+  <div class="tradingview-widget-container__widget"></div>
+  <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com" rel="noopener" target="_blank"><span class="blue-text">Quotes</span></a> by TradingView</div>
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-tickers.js" async>
+  {
+  "symbols": [
+    {
+      "title": "S&P 500",
+      "proName": "OANDA:SPX500USD"
+    },
+    {
+      "title": "Nasdaq 100",
+      "proName": "OANDA:NAS100USD"
+    },
+    {
+      "title": "EUR/USD",
+      "proName": "FX_IDC:EURUSD"
+    },
+    {
+      "title": "BTC/USD",
+      "proName": "BITSTAMP:BTCUSD"
+    },
+    {
+      "title": "ETH/USD",
+      "proName": "BITSTAMP:ETHUSD"
+    }
+  ],
+  "colorTheme": "light",
+  "isTransparent": false,
+  "locale": "en"
+}
+  </script>
+</div>
+
+
+<body>
+<h>DashBoard</h>
+<p>Search by Stock Symbol:<input type="text" id="myText" name ="symbol">
+<br>
+<button onclick="myFunction()"  class="btn btn-default" >Search for A Stock Quote</button>
+<br>
+<form action="/watchlist/" method="POST">
+<p>Symbol:</p>
+<p id="1"></p>
+<input id="myText1" STYLE="background-color: #f2f2f2"; type="hidden" name ="symbol" value ="Stock Symbol" readonly></input>
+<br>
+<p>Current Price:</p>
+<p id="2"></p>
+<input id="price1" STYLE="background-color: #f2f2f2"; type="hidden" name ="price" value = "Stock Share Price" readonly></input>
+<br>
+<p>Current Market Cap:</p>
+<p id="3"></p>
+<input id="price2" STYLE="background-color: #f2f2f2"; type="hidden" name ="mprice" value = "Market Cap" readonly></input>
+<br>
+
+ <button onclick="myFunction()"  class="btn btn-default"> Save to Watch List</button>
+</form>
+<h2>User Info</h2>
+<p>Username:{{this.username}}</p>
+ <p>Password:{{this.password}}</p>
+ <p><form action="/profileedit/"><button  type="submit"  class="btn btn-default" >Edit Profile</button></form></p>
+ <script>
+function myFunction(){
+	 var x = document.getElementById("myText").value;
+	var request = new XMLHttpRequest()
+
+	// Open a new connection, using the GET request on the URL endpoint
+	request.open('GET', 'https://cloud.iexapis.com/stable/stock/'+x+'/quote?token=pk_edd6c337d0c948319b8bfa4e47c24774', true)
+
+	request.onload = function () {
+	  // Begin accessing JSON data here
+	  var data = JSON.parse(this.response)
+    document.getElementById('myText1').value = data.symbol;
+    document.getElementById('price1').value = data.latestPrice;
+    document.getElementById('price2').value = data.marketCap;
+    document.getElementById('1').innerHTML = data.symbol;
+    document.getElementById('2').innerHTML = data.latestPrice;
+    document.getElementById('3').innerHTML = data.marketCap;
+
+
+	}
+	// Send request
+	request.send()
+}
+
+</script>
+</body>
+</html>

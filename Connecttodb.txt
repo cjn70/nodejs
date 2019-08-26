@@ -1,0 +1,16 @@
+var mysql = require('mysql');
+
+var con = mysql.createConnection({
+  host: "craignatoli.chsku6cdeo0o.us-east-2.rds.amazonaws.com",
+  user: "cs336",
+  password: "craignatoli",
+  database : 'login'
+});
+
+con.connect(function(err) {
+  if (err) throw err;
+  con.query("SELECT * FROM register", function (err, result, fields) {
+    if (err) throw err;
+    console.log(result);
+  });
+});
